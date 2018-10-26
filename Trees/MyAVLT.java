@@ -205,43 +205,6 @@ public class MyAVLT<T extends Comparable> {
         }
     }
 
-//    public int height() {
-//        if (isEmpty()) {
-//            System.out.println("Tree is empty!");
-//            return -1;
-//        } else {
-//            return height(root);
-//        }
-//
-//    }
-//
-//    private int height(MyAVLNode<T> node) {                
-//        if (node.getLeft() == null && node.getRight() == null) {
-//            return 0;
-//        } else {
-//            int treeHeight = 1;
-//            int leftHeight = 0, rightHeight = 0;
-//
-//            if (node.getLeft() != null) {
-//                leftHeight = height(node.getLeft()) + treeHeight;
-//            }
-//            if (node.getRight() != null) {
-//                rightHeight = height(node.getRight()) + treeHeight;
-//            }
-//
-//            return getHigher(leftHeight, rightHeight);
-//        }
-//    }
-//
-//    private int getHigher(int a, int b) {
-//        if (a < b) {
-//            return b;
-//        } else if (a == b) {
-//            return a;
-//        } else {
-//            return a;
-//        }
-//    }
     //Print Routine
     public void print() {
         System.out.println("Tree Height: " + root.getHeight());
