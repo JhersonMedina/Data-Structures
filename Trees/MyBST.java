@@ -155,18 +155,7 @@ public class MyBST<T extends Comparable> {
                 rightHeight = height(node.getRight()) + treeHeight;
             }
 
-            return getHigher(leftHeight, rightHeight);
-        }
-    }
-
-
-    private int getHigher(int a, int b) {
-        if (a < b) {
-            return b;
-        } else if (a == b) {
-            return a;
-        } else {
-            return a;
+            return Math.max(leftHeight, rightHeight);
         }
     }
 
