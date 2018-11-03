@@ -12,16 +12,19 @@ package bst;
  */
 public class MyAVLT<T extends Comparable> {
 
-    MyAVLNode<T> root;
+    MyBinaryNode<T> root;
 
+    //Constructor
     public MyAVLT() {
         this.root = null;
     }
 
+    //Checking if empty or not
     private boolean isEmpty() {
         return root == null;
     }
 
+    //Delete the tree
     private void clear() {
         this.root = null;
     }
@@ -31,8 +34,7 @@ public class MyAVLT<T extends Comparable> {
         return contains(element, root);
 
     }
-
-    private boolean contains(T element, MyAVLNode n) {
+    private boolean contains(T element, MyBinaryNode n) {
         if (n == null) {
             return false;
         }
@@ -55,8 +57,7 @@ public class MyAVLT<T extends Comparable> {
             return findMax(root).getElement();
         }
     }
-
-    private MyAVLNode<T> findMax(MyAVLNode<T> n) {
+    private MyBinaryNode<T> findMax(MyBinaryNode<T> n) {
         if (n.getRight() == null) {
             return n;
         } else {
@@ -73,8 +74,7 @@ public class MyAVLT<T extends Comparable> {
             return findMin(root).getElement();
         }
     }
-
-    private MyAVLNode<T> findMin(MyAVLNode<T> n) {
+    private MyBinaryNode<T> findMin(MyBinaryNode<T> n) {
         if (n.getLeft() == null) {
             return n;
         } else {
@@ -84,134 +84,135 @@ public class MyAVLT<T extends Comparable> {
 
     //Insert routine
     public void insert(T element) {
-        if (root == null) {
-            root = new MyAVLNode<>(element, null, null);
-        } else {
-            insert(element, root);
-        }
+        root = insert(element, root);
     }
-
-    private MyAVLNode<T> insert(T element, MyAVLNode<T> n) {
-        if (n == null) {
-            return new MyAVLNode<>(element, null, null);
+    private MyBinaryNode<T> insert(T element, MyBinaryNode<T> node) {
+        if (node == null) {
+            return new MyBinaryNode<>(element, null, null);
         }
 
-        int compareResult = element.compareTo(n.getElement());
+        int compareResult = element.compareTo(node.getElement());
 
         if (compareResult < 0) {
-            n.setLeft(insert(element, n.getLeft()));
+            node.setLeft(insert(element, node.getLeft()));
         } else if (compareResult > 0) {
-            n.setRight(insert(element, n.getRight()));
-        } else {
-            ; //Duplicat; do nothing
+            node.setRight(insert(element, node.getRight()));
+        }else{
+            ;
         }
-        return balance(n);
+
+        return balance(node);
     }
 
     //AVL properties:
-    private MyAVLNode<T> singleRightRotation(MyAVLNode<T> k2) {
-        MyAVLNode<T> k1 = k2.getLeft();
+    
+    //Rotation to fix case 1: rotateWithLeftChild
+    private MyBinaryNode<T> singleRightRotation(MyBinaryNode<T> k2) {
+        MyBinaryNode<T> k1 = k2.getLeft();
         k2.setLeft(k1.getRight());
         k1.setRight(k2);
-        k2.setHeight(Math.max(height(k2.getLeft()), height(k2.getRight())) + 1);
-        k1.setHeight(Math.max(height(k1.getLeft()), k2.getHeight()) + 1);
         return k1;
     }
-
-    private MyAVLNode<T> doubleRightRotation(MyAVLNode<T> k3) {
+   
+    //Rotation to fix case 2: doubleWithLeftChild
+    private MyBinaryNode<T> leftRightRotation(MyBinaryNode<T> k3) {
         k3.setLeft(singleLeftRotation(k3.getLeft()));
         return singleRightRotation(k3);
 
     }
 
-    private MyAVLNode<T> singleLeftRotation(MyAVLNode<T> k2) {
-        MyAVLNode<T> k1 = k2.getRight();
-        k2.setRight(k1.getLeft());
-        k1.setLeft(k2);
-        k2.setHeight(Math.max(height(k2.getRight()), height(k2.getLeft())) + 1);
-        k1.setHeight(Math.max(height(k1.getRight()), k2.getHeight()) + 1);
-        return k1;
+    //Rotation to fix case 4: rotateWithRightChild
+    private MyBinaryNode<T> singleLeftRotation(MyBinaryNode<T> k1) {
+        MyBinaryNode<T> k2 = k1.getRight();
+        k1.setRight(k2.getLeft());
+        k2.setLeft(k1);
+        return k2;
     }
 
-    private MyAVLNode<T> doubleLeftRotation(MyAVLNode<T> k3) {
-        k3.setRight(singleRightRotation(k3.getRight()));
-        return singleLeftRotation(k3);
+    //Rotation ro fix case 3: doubleWithRightChild
+    private MyBinaryNode<T> rightLeftRotation(MyBinaryNode<T> k1) {
+        k1.setRight(singleRightRotation(k1.getRight()));
+        return singleLeftRotation(k1);
     }
 
-    private MyAVLNode<T> balance(MyAVLNode<T> node) {
+    //Asuming node is either balance or within one of being balance
+    private MyBinaryNode<T> balance(MyBinaryNode<T> node) {
         if (node == null) {
             return node;
         }
-
         if (height(node.getLeft()) - height(node.getRight()) > 1) {
             if (height(node.getLeft().getLeft()) >= height(node.getLeft().getRight())) {
                 node = singleRightRotation(node);
             } else {
-                node = doubleRightRotation(node);
+                node = leftRightRotation(node);
             }
-
         } else {
             if (height(node.getRight()) - height(node.getLeft()) > 1) {
                 if (height(node.getRight().getRight()) >= height(node.getRight().getLeft())) {
                     node = singleLeftRotation(node);
                 } else {
-                    node = doubleLeftRotation(node);
+                    node = rightLeftRotation(node);
                 }
-
             }
-
         }
-        node.setHeight(Math.max(height(node.getLeft()), height(node.getRight())) + 1);
         return node;
-
     }
 
     //Remove routine
     public void remove(T element) {
-        if ((element == root.getElement()) && ((root.getLeft() == null) || (root.getRight() == null))) {
-            root = remove(element, root);
-        } else {
-            remove(element, root);
-        }
+        root = remove(element, root);
     }
-
-    private MyAVLNode<T> remove(T element, MyAVLNode n) {
-        if (n == null) {
-            return null;
+    private MyBinaryNode<T> remove(T element, MyBinaryNode<T> node) {
+        if (node == null) {
+            return node;
         }
-        int compareResult = element.compareTo(n.getElement());
+
+        int compareResult = element.compareTo(node.getElement());
 
         if (compareResult < 0) {
-            n.setLeft(remove(element, n.getLeft()));
+            node.setLeft(remove(element, node.getLeft()));
         } else if (compareResult > 0) {
-            n.setRight(remove(element, n.getRight()));
-        } else if (n.getLeft() != null && n.getRight() != null) {
-            n.setElement(findMin(n.getRight()).getElement());
-            n.setRight(remove((T) n.getElement(), n.getRight()));
+            node.setRight(remove(element, node.getRight()));
+        } else if (node.getLeft() != null && node.getRight() != null) {
+            node.setElement(findMin(node.getRight()).getElement());
+            node.setRight(remove(node.getElement(), node.getRight()));
         } else {
-            n = (n.getLeft() != null) ? n.getLeft() : n.getRight();
+            node = (node.getLeft() != null) ? node.getLeft() : node.getRight();
         }
 
-        return balance(n);
+        return balance(node);
 
     }
 
-    //Find height routine
-    private int height(MyAVLNode<T> node) {
-        if (node == node) {
+    //Applying height method without a height atribute in each node
+    private int height(MyBinaryNode<T> node) {
+        if (node == null) {
             return -1;
         } else {
-            return node.getHeight();
+            if (node.getLeft() == null && node.getRight() == null) {
+                return 0;
+            } else {
+                int treeHeight = 1;
+                int leftHeight = 0, rightHeight = 0;
+
+                if (node.getLeft() != null) {
+                    leftHeight = height(node.getLeft()) + treeHeight;
+                }
+                if (node.getRight() != null) {
+                    rightHeight = height(node.getRight()) + treeHeight;
+                }
+
+                return Math.max(leftHeight, rightHeight);
+            }
         }
     }
 
-    //Print Routine
+    //Print method
     public void print() {
-        System.out.println("Tree Height: " + root.getHeight());
+        System.out.println(height(root));
         print(root, "");
     }
-
-    private void print(MyAVLNode n, String j) {
+    private void print(MyBinaryNode n, String j) {
         if (n != null) {
             System.out.println(j + n.getElement());
             print(n.getLeft(), (j + " "));

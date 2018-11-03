@@ -14,23 +14,26 @@ public class MyBST<T extends Comparable> {
 
     MyBinaryNode<T> root;
 
+    //Constructor
     public MyBST() {
         this.root = null;
     }
 
+    //Checking if empty or not
     private boolean isEmpty() {
         return root == null;
     }
 
+    //Delete the tree
     private void clear() {
         this.root = null;
     }
 
+    //contains routine
     public boolean contains(T element) {
         return contains(element, root);
 
     }
-
     private boolean contains(T element, MyBinaryNode n) {
         if (n == null) {
             return false;
@@ -46,6 +49,7 @@ public class MyBST<T extends Comparable> {
 
     }
 
+    //FindMax routine
     public T findMax() {
         if (root == null) {
             return null;
@@ -53,7 +57,6 @@ public class MyBST<T extends Comparable> {
             return findMax(root).getElement();
         }
     }
-
     private MyBinaryNode<T> findMax(MyBinaryNode<T> n) {
         if (n.getRight() == null) {
             return n;
@@ -63,6 +66,7 @@ public class MyBST<T extends Comparable> {
         }
     }
 
+    //FindMin routine
     public T findMin() {
         if (root == null) {
             return null;
@@ -70,7 +74,6 @@ public class MyBST<T extends Comparable> {
             return findMin(root).getElement();
         }
     }
-
     private MyBinaryNode<T> findMin(MyBinaryNode<T> n) {
         if (n.getLeft() == null) {
             return n;
@@ -79,17 +82,17 @@ public class MyBST<T extends Comparable> {
         }
     }
 
+    //insert routine
     public void insert(T element) {
         if (root == null) {
-            root = new MyBinaryNode<>(element);
+            root = new MyBinaryNode<>(element, null, null);
         } else {
             insert(element, root);
         }
     }
-
     private MyBinaryNode<T> insert(T element, MyBinaryNode<T> n) {
         if (n == null) {
-            return new MyBinaryNode<>(element);
+            return new MyBinaryNode<>(element, null, null);
         }
         int compareResult = element.compareTo(n.getElement());
 
@@ -102,6 +105,7 @@ public class MyBST<T extends Comparable> {
         return n;
     }
 
+     //Remove routine
     public void remove(T element) {
         if ((element == root.getElement()) && ((root.getLeft() == null) || (root.getRight() == null))) {
             root = remove(element, root);
@@ -109,7 +113,6 @@ public class MyBST<T extends Comparable> {
             remove(element, root);
         }
     }
-
     private MyBinaryNode<T> remove(T element, MyBinaryNode n) {
         if (n == null) {
             return null;
@@ -131,17 +134,17 @@ public class MyBST<T extends Comparable> {
 
     }
 
+    //Applying height method without a height atribute in each node
     public int height() {
         if (isEmpty()) {
-            System.out.println("Tree is empty!");
             return -1;
         } else {
             return height(root);
         }
 
     }
-
     private int height(MyBinaryNode<T> node) {
+        
         if (node.getLeft() == null && node.getRight() == null) {
             return 0;
         } else {
@@ -159,10 +162,10 @@ public class MyBST<T extends Comparable> {
         }
     }
 
+    //Print method
     public void print() {
         print(root, "");
     }
-
     private void print(MyBinaryNode n, String j) {
         if (n != null) {
             System.out.println(j + n.getElement());

@@ -38,8 +38,8 @@ public class Main {
 
         System.out.println("is 5 conatained? : " + myTree.contains(5));
         System.out.println("is 0 contained: " + myTree.contains(0));
-        
-        System.out.println("Tree after removing element:");
+
+        System.out.println("Tree after removing element 2:");
         System.out.println("Tree height: " + myTree.height());
         myTree.print();
 
@@ -54,7 +54,7 @@ public class Main {
         myAVLTree.insert(8);
         myAVLTree.insert(7);
 
-        System.out.println("Tree itself:");
+        System.out.println("Tree itself:");    
         myAVLTree.print();
 
         System.out.println("Smallest element: " + myAVLTree.findMin());
@@ -66,9 +66,7 @@ public class Main {
         System.out.println("is 5 conatained? : " + myAVLTree.contains(5));
         System.out.println("is 0 contained: " + myAVLTree.contains(0));
 
-        System.out.println("Tree after removing element:");
+        System.out.println("Tree after removing element 2:");
         myAVLTree.print();
-
-        //System.out.println("AVL Tree: " + myAVLTree.height());
     }
 }

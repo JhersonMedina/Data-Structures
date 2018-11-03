@@ -10,15 +10,24 @@ package bst;
  * @author Estudiante
  * @param <T>
  */
-public class MyBinaryNode <T>{
+public class MyBinaryNode<T> {
+    
+    
     private T element;
-    private MyBinaryNode <T> left;
-    private MyBinaryNode <T> right;
-
-    public MyBinaryNode(T element) {
-        this.element = element;
+    private MyBinaryNode<T> left;
+    private MyBinaryNode<T> right;
+    
+    public MyBinaryNode(T element)
+    {
+        this(element, null, null);
     }
 
+    public MyBinaryNode(T element, MyBinaryNode<T> left, MyBinaryNode<T> right) {
+        this.element = element;
+        this.left = left;
+        this.right = right;
+    }
+    
     public T getElement() {
         return element;
     }
