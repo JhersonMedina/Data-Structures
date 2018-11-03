@@ -10,6 +10,8 @@ package bst;
  * @author Jhers
  * @Param <T>
  */
+
+//This class is actually never used, its existance is for "just in case"
 public class MyAVLNode<T> {
     private T element;
     private MyAVLNode<T> left;
