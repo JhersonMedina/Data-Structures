@@ -209,7 +209,7 @@ public class MyAVLT<T extends Comparable> {
 
     //Print method
     public void print() {
-        System.out.println(height(root));
+        System.out.println("Tree height:" + height(root));
         print(root, "");
     }
     private void print(MyBinaryNode n, String j) {
