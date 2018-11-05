@@ -25,7 +25,7 @@ public class MyAVLT<T extends Comparable> {
     }
 
     //Delete the tree
-    private void clear() {
+    public void clear() {
         this.root = null;
     }
 
